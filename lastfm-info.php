@@ -76,7 +76,13 @@ function lastfm_playlist ( $before = "<li>", $after = "</li>", $dateformat = "j 
   if ( ! count( array_filter( $xml, "li_is_track" ) ) ) {
 
     uc_cache_contents( $url, $oldcontents );
-    $xml = xml_cache( $url, "", "", $timeout );
+
+    // Use a large timeout value to make sure that the cached
+    // copy is returned. This should not be needed, since we
+    // have just cached the old content above but, for some
+    // reason, it is.
+
+    $xml = xml_cache( $url, "", "", 3600 );
   }
 
   // Gather the data we want from the XML and print it.
